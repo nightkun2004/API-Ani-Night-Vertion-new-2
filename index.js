@@ -30,7 +30,6 @@ app.use("/api/users", authRouter)
 app.use("/api/posts", PostArticleRouter)
 app.use("/api/admin", AdminRouter)
 
-const PORT = 8500
 app.listen(process.env.PORT, () => {
-    console.log(`Server in runing to port ${PORT}`)
+    console.log(`Server in runing to port ${process.env.PORT}`)
 })
