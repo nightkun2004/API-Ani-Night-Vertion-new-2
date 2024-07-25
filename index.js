@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const cors = require('cors');
 const path = require("path")
+require("dotenv").config()
 
 const authRouter = require("./Routers/authRouter")
 const PostArticleRouter = require("./Routers/posrtArticleRouter")
@@ -30,6 +31,6 @@ app.use("/api/posts", PostArticleRouter)
 app.use("/api/admin", AdminRouter)
 
 const PORT = 8500
-app.listen(PORT, () => {
+app.listen(process.env.PORT, () => {
     console.log(`Server in runing to port ${PORT}`)
 })
