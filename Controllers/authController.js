@@ -287,13 +287,13 @@ const getFollow = async (req, res, next) => {
 
         // ตรวจสอบว่าไม่สามารถติดตามตัวเองได้
         if (followerId === followingId) {
-            return next(new HttpError("คุณไม่สามารถติดตามตัวเองได้", 400));
+            return res.status(400).json({ message: 'คุณไม่สามารถติดตามตัวเองได้', })
         }
 
         // ตรวจสอบว่าผู้ใช้ที่ต้องการติดตามนั้นอยู่ในรายการที่ผู้ใช้ติดตามอยู่แล้วหรือไม่
         const user = await User.findById(followerId);
         if (user.following.includes(followingId)) {
-            return next(new HttpError("คุณติดตามผู้ใช้งานนี้แล้ว", 400));
+            return res.status(400).json({ message: 'คุณติดตามผู้ใช้งานนี้แล้ว', })
         }
 
         // อัปเดตผู้ใช้ที่ติดตาม
@@ -309,7 +309,7 @@ const getFollow = async (req, res, next) => {
         res.status(201).json({ message: "ติดตามผู้ใช้งานสำเร็จ" });
 
     } catch (error) {
-        return next(new HttpError(error.message || 'เกิดข้อผิดพลาดในการติดตามผู้ใช้งาน', 500));
+        return res.status(500).json({ message: 'กิดข้อผิดพลาดในการติดตามผู้ใช้งาน', })
     }
 };
 
@@ -324,7 +324,7 @@ const getFollowers = async (req, res, next) => {
         // ค้นหาผู้ใช้ที่ต้องการ
         const user = await User.findById(userId).populate('followers', 'username email profilePicture');
         if (!user) {
-            return next(new HttpError("ไม่พบผู้ใช้งาน", 404));
+            return res.status(404).json({ message: 'ไม่พบผู้ใช้งานน', })
         }
 
         // ค้นหาผู้ใช้ที่ติดตามผู้ใช้ที่ต้องการ
@@ -360,7 +360,7 @@ const getFollowers = async (req, res, next) => {
         });
 
     } catch (error) {
-        return next(new HttpError(error.message || 'เกิดข้อผิดพลาดในการดึงข้อมูลผู้ติดตามและผู้ติดตาม', 500));
+        return res.status(500).json({ message: 'เกิดข้อผิดพลาก', })
     }
 };
 

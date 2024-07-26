@@ -11,7 +11,7 @@ router.post("/edit/profile/detaills", authMiddleware, editProfile)
 router.post('/follow/:id', authMiddleware, getFollow);
 router.post('/followers/:id', authMiddleware, getFollowers);
 router.post("/profile/authors", getAuthors)
-router.post("/profile/channel/:channel", getChannel)
+router.post("/profile/channel", getChannel)
 router.get("/user/articles", getArticleUser)
 
 module.exports = router
