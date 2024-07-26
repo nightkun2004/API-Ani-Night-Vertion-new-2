@@ -265,12 +265,12 @@ const getAuthors = async (req, res, next) => {
 }
 
 // ===================== GETAUTHORS
-// POST : /api/users/authors/channel/:channel
+// POST : /api/users/profile/channel/:channel
 const getChannel= async (req, res, next) => {
-    const { channelID } = req.params.channel;
+    const { channelID } = req.params; // ดึงค่า channelID จาก req.params
     try {
-        const authhors = await User.findById(channelID).select('-password');
-        res.json(authhors)
+        const authors = await User.findById(channelID).select('-password');
+        res.json(authors);
     } catch (error) {
         return next(new HttpError(error));
     }
