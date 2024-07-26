@@ -5,7 +5,7 @@ const  authMiddleware  = require("../Middlewares/authMiddleware")
 
 router.post("/login", login)
 router.post("/register", register)
-router.post("/:username", authMiddleware, getUser)
+router.get("/:username", authMiddleware, getUser)
 router.post("/change-profile/user", authMiddleware, changeProfile)
 router.post("/edit/profile/detaills", authMiddleware, editProfile)
 router.post('/follow/:id', authMiddleware, getFollow);
