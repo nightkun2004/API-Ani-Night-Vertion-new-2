@@ -267,12 +267,15 @@ const getAuthors = async (req, res, next) => {
 // ===================== GETAUTHORS
 // POST : /api/users/profile/channel/:channel
 const getChannel= async (req, res, next) => {
-    const { channelID } = req.params; // ดึงค่า channelID จาก req.params
+    const { channel } = req.params;
     try {
-        const authors = await User.findById(channelID).select('-password');
-        res.json(authors);
+        const author = await User.findOne({ _id: channel }).select('-password');
+        if (!author) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        res.json(author);
     } catch (error) {
-        return next(new HttpError(error));
+        return next(new HttpError(error.message, 500));
     }
 }
 
