@@ -264,6 +264,18 @@ const getAuthors = async (req, res, next) => {
     }
 }
 
+// ===================== GETAUTHORS
+// POST : /api/users/authors/channel/:channel
+const getChannel= async (req, res, next) => {
+    const { channelID } = req.params.channel;
+    try {
+        const authhors = await User.findById(channelID).select('-password');
+        res.json(authhors)
+    } catch (error) {
+        return next(new HttpError(error));
+    }
+}
+
 // ===================== ติดตามผู้ใช้งาน
 const getFollow = async (req, res, next) => {
     try {
@@ -360,5 +372,6 @@ module.exports = {
     changeProfile,
     editProfile,
     getFollow,
-    getFollowers
+    getFollowers,
+    getChannel
 }
