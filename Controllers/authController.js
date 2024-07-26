@@ -54,7 +54,7 @@ const register = async (req, res, next) => {
         }
 
         if (password != password2) {
-            return next(new HttpError("รหัสผ่านขอคุณไม่ตรงกัน", 422))
+            return res.status(400).json({ message: 'รหัสผ่านขอคุณไม่ตรงกัน' });
         }
 
         // ตรวจสอบความปลอดภัยของรหัสผ่าน (ตัวอย่างเช่น การมีอักขระต่างๆ)
