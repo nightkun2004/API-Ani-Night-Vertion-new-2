@@ -143,7 +143,11 @@ const getArticleUser = async (req, res, next) => {
     }
 };
 
-
+// const getServerUrl = (uploadDir) => {
+//     if (uploadDir.includes('sv1')) return 'sv1.ani-night.online';
+//     if (uploadDir.includes('sv2')) return 'sv2.ani-night.online';
+//     return 'ani-night.online';
+// };
 // =====================changeProfile
 // POST : /api/users/change-profile
 const changeProfile = async (req, res, next) => {
@@ -175,13 +179,24 @@ const changeProfile = async (req, res, next) => {
         let fileName = avatar.name;
         let splittedFilename = fileName.split('.');
         let newFilename = splittedFilename[0] + crypto.randomUUID()  + '.' + splittedFilename[splittedFilename.length - 1];
+        // let uploadDir = '/uploads/profiles'; // Default directory for uploads
+        // let serverUrl = 'ani-night.online';
+
+        // Determine the server URL based on the upload directory
+        // if (process.env.SERVER_ENV === 'sv1') {
+        //     uploadDir = '/uploads/sv1/profiles';
+        //     serverUrl = 'sv1.ani-night.online';
+        // } else if (process.env.SERVER_ENV === 'sv2') {
+        //     uploadDir = '/uploads/sv2/profiles';
+        //     serverUrl = 'sv2.ani-night.online';
+        // }
 
         avatar.mv(path.join(__dirname, '..', '/uploads/profiles', newFilename), async (err) => {
             if (err) {
                 return next(new HttpError(err.message, 500));
             }
 
-            const updateAvatar = await User.findByIdAndUpdate(req.user.id, { profilePicture: newFilename }, { new: true });
+            const updateAvatar = await User.findByIdAndUpdate(req.user.id, { profilePicture: newFilename  }, { new: true });
 
             if (!updateAvatar) {
                 return next(new HttpError("ไม่สามารถเปลี่ยนอวาตาร์ได้", 422));
@@ -200,9 +215,9 @@ const changeProfile = async (req, res, next) => {
 // POST : /api/users/edit/profile/detaills
 const editProfile = async (req, res, next) => {
     try {
-        const { username, email, currentPassword, newPassword, confirmNewPassword } = req.body;
+        const { username, email, currentPassword, newPassword, bio, confirmNewPassword } = req.body;
 
-        if (!username || !email || !currentPassword || !newPassword || !confirmNewPassword) {
+        if (!username || !currentPassword || !bio ) {
             return res.status(422).json({ message: 'Fill in all fields', });
         }
 

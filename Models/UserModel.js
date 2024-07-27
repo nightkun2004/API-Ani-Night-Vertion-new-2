@@ -13,7 +13,15 @@ const UserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    serverUrl: {
+        type: String,
+        enum: ["ani-night.online", "sv1.ani-night.online", "sv2.ani-night.online"],
+        default: "api.ani-night.online"
+    },
     profilePicture: {
+        type: String
+    },
+    bio: {
         type: String
     },
     followers: [{
@@ -27,6 +35,10 @@ const UserSchema = new mongoose.Schema({
     points: {
         type: Number,
         default: 0 
+    },
+    isFollowing: {
+        type: Boolean,
+        default: false
     },
     isApproved: {
         type: Boolean,
